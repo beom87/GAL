@@ -59,13 +59,13 @@ export default function Summary() {
 
     const onCardClick = (name: string) => setFocus(name);
 
-    const onCarouselPlayClick = () => {
-        if (playState === 'play') {
-            setPlayState('stop');
-            return;
-        }
-        if (playState === 'stop') setPlayState('play');
-    };
+    // const onCarouselPlayClick = () => {
+    //     if (playState === 'play') {
+    //         setPlayState('stop');
+    //         return;
+    //     }
+    //     if (playState === 'stop') setPlayState('play');
+    // };
 
     useEffect(() => {
         if (playState === 'play') {

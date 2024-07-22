@@ -1,11 +1,10 @@
 import { useNavigate } from 'react-router-dom';
 import Loading from '../../design-system/ui/Loading';
-import { SpreadSheet } from '../../spreadsheets/core';
 import clsx from 'clsx';
-const spreadsheets = new SpreadSheet();
 // import eastarjetLogoSrc from '../../assets/images/eastarjet-logo-white.png';
 
 import { useEffect, useRef, useState } from 'react';
+import spreadsheets from '../../spreadsheets';
 
 export default function SignIn() {
     const [loaded, setLoaded] = useState(false);
@@ -31,21 +30,20 @@ export default function SignIn() {
     const checkLogIn = async () => {
         const user = await spreadsheets.getUser();
 
-        const target = user.find((u) => u.id === loginInfo.current.id);
+        const target = user?.find((u) => u.id === loginInfo.current.id);
         if (!target) {
             window.alert('아이디 없음');
             return;
         }
 
         if (target.password === loginInfo.current.password) {
-            navigate('/main');
+            navigate('/');
         } else {
             window.alert('패스워드 틀림');
         }
     };
 
     useEffect(() => {
-        
         spreadsheets.gisLoad();
         spreadsheets.gapiLoad();
         spreadsheets.on('loaded', () => {
@@ -57,7 +55,7 @@ export default function SignIn() {
     }, []);
 
     return (
-        <div className="font-omp flex h-screen flex-col shadow">
+        <div className="flex h-screen flex-col font-omp shadow">
             <div className="flex-1 bg-main text-center text-white">
                 <div className="flex h-full flex-col justify-center">
                     {/* <img className="px-6 pb-10" src={eastarjetLogoSrc}></img> */}
@@ -72,7 +70,7 @@ export default function SignIn() {
                     </div>
                     <div className="mb-10 flex items-center">
                         <label className="min-w-28">PASSWORD</label>
-                        <input className="font-noto w-full rounded bg-gray-100 px-4 py-2" type="password" onChange={onPasswordChange}></input>
+                        <input className="w-full rounded bg-gray-100 px-4 py-2 font-noto" type="password" onChange={onPasswordChange}></input>
                     </div>
                 </form>
                 <div

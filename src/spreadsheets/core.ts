@@ -14,7 +14,7 @@ export class SpreadSheet extends EventEmitter<EventName> {
     // included, separated by spaces.
     protected SCOPES = 'https://www.googleapis.com/auth/spreadsheets';
 
-    protected SPREADSHEET_ID = '1kARiPkENYQ_dc8DrGC3DvzE2wAorVWBiPDIb6K13OfI';
+    protected SPREADSHEET_ID = '13-EZjNw_yC_zA0SPhhlRu4K02Bl_pVwow1pEfB-LUV4';
 
     tokenClient: any;
 
@@ -62,8 +62,20 @@ export class SpreadSheet extends EventEmitter<EventName> {
             return true;
         }
     }
+    refresh() {
+        if (window.gapi.client?.getToken()) return;
+        return new Promise<void>((r) => {
+            this.gisLoad();
+            this.gapiLoad();
+            this.once('loaded', () => {
+                this.authorize();
+                r();
+            });
+        });
+    }
 
     async getData() {
+        if (!window.gapi.client) return;
         const response = await window.gapi.client.sheets.spreadsheets.values.get({
             spreadsheetId: this.SPREADSHEET_ID,
             range: '아침(컴포즈)!A:E'
@@ -72,19 +84,29 @@ export class SpreadSheet extends EventEmitter<EventName> {
     }
 
     async getUser() {
+        if (!window.gapi.client) return;
         const response = await window.gapi.client.sheets.spreadsheets.values.get({
             spreadsheetId: this.SPREADSHEET_ID,
             range: 'USER!A:D'
         });
 
-        return this.sheetParser(response.result.values) as { name: string; phone: string; id: string; password: string }[];
+        return this.sheetParser<{ name: string; phone: string; id: string; password: string }>(response.result.values);
+    }
+    async getHistory() {
+        if (!window.gapi.client) return;
+        const response = await window.gapi.client.sheets.spreadsheets.values.get({
+            spreadsheetId: this.SPREADSHEET_ID,
+            range: 'HISTORY!A:Z'
+        });
+
+        return this.sheetParser(response.result.values);
     }
 
     private onLoadedCheck(type: keyof typeof this.loadState) {
         this.loadState[type] = true;
         if (this.loadState.gapi && this.loadState.gis) this.emit('loaded');
     }
-    private sheetParser(values: any[]) {
+    private sheetParser<T = any>(values: any[]): T[] {
         const fileds = values.shift();
 
         return values.reduce((p: any[], c: string) => {

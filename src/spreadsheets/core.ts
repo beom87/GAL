@@ -74,15 +74,6 @@ export class SpreadSheet extends EventEmitter<EventName> {
         });
     }
 
-    async getData() {
-        if (!window.gapi.client) return;
-        const response = await window.gapi.client.sheets.spreadsheets.values.get({
-            spreadsheetId: this.SPREADSHEET_ID,
-            range: '아침(컴포즈)!A:E'
-        });
-        return response;
-    }
-
     async getUser() {
         if (!window.gapi.client) return;
         const response = await window.gapi.client.sheets.spreadsheets.values.get({

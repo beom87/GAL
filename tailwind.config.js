@@ -29,7 +29,7 @@ module.exports = {
                     to: { height: '0' }
                 },
                 'bounce-2': {
-                    '0, 50%, 100%': {
+                    '0%, 50%, 100%': {
                         transform: 'none'
                     },
                     '25%': { transform: 'translateY(2.5%)' },

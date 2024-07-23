@@ -7,6 +7,7 @@ import useUserStore from '@/stores/user';
 import { cn } from '@/lib/utils';
 import Icon from '@/components/ui/icons';
 import useHomeStore from '@/stores/home';
+import startSrc from '@/assets/images/star.png';
 
 export default function Summary() {
     const { user } = useUserStore();
@@ -85,7 +86,7 @@ export default function Summary() {
     }, [api]);
 
     return (
-        <div>
+        <div className="relative">
             <div className="h-96">
                 <Carousel
                     className="m-auto w-full max-w-[300px] lg:max-w-screen-lg 2xl:max-w-screen-2xl"
@@ -107,18 +108,26 @@ export default function Summary() {
                                         onClick={() => onCardClick(history.name)}
                                     >
                                         <div className="px-3 py-1 text-right text-3xl font-semibold">{index + 1}</div>
+                                        <div className="text-center font-semibold text-white">
+                                            <div>{history.name}</div>
+                                            <div className="flex flex-wrap justify-end gap-2 p-2">
+                                                {[...new Array(Math.floor(history.cost / 100000))].map((_) => (
+                                                    <img key={_} src={startSrc} width={20}></img>
+                                                ))}
+                                            </div>
+                                        </div>
                                         <div>
                                             <div className="px-2 text-white">
                                                 <div className="flex items-center justify-between gap-x-2">
-                                                    <div className="flex gap-x-1">
+                                                    <div className="flex flex-1 gap-x-1">
                                                         <Icon name="Swords" />
                                                         <span className="pb-1">{history.total}</span>
                                                     </div>
-                                                    <div className="flex gap-x-1">
+                                                    <div className="flex flex-1 gap-x-1">
                                                         <Icon name="Crown" />
                                                         <span className="pb-1">{history.win}</span>
                                                     </div>
-                                                    <div className="flex justify-end gap-x-1">
+                                                    <div className="flex flex-1 justify-end gap-x-1">
                                                         <Icon name="BadgeCent" />
                                                         <span className="pb-1">{history.cost.toLocaleString()}</span>
                                                     </div>
@@ -126,15 +135,15 @@ export default function Summary() {
                                             </div>
                                             <div className="px-2 pb-1 text-white">
                                                 <div className="flex items-center justify-between gap-x-2">
-                                                    <div className="flex gap-x-1">
+                                                    <div className="flex flex-1 gap-x-1">
                                                         <Icon name="Star" />
                                                         <span className="pb-1">{history.realRate.toFixed(1)}%</span>
                                                     </div>
-                                                    <div className="flex gap-x-1">
+                                                    <div className="flex flex-1 gap-x-1">
                                                         <Icon name="StarOff" />
                                                         <span className="pb-1">{history.expRate.toFixed(1)}%</span>
                                                     </div>
-                                                    <div className="flex gap-x-1">
+                                                    <div className="flex flex-1 gap-x-1">
                                                         <Icon name="HandCoins" />
                                                         <span className="pb-1">{parseInt(history.consume.toFixed(0)).toLocaleString()}</span>
                                                     </div>

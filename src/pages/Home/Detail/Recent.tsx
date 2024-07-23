@@ -19,7 +19,7 @@ export default function Recent() {
             <ChartContainer className="m-auto max-w-2xl px-4" config={{ price: { label: 'price' } }}>
                 <BarChart data={data}>
                     <CartesianGrid vertical={false} />
-                    <XAxis dataKey="date" />
+                    {/* <XAxis dataKey="date" /> */}
                     <ChartTooltip
                         cursor={{ fill: 'lightgrey' }}
                         content={<ChartTooltipContent />}

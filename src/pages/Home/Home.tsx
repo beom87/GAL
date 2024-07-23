@@ -6,6 +6,7 @@ import { history as fakeHistory, user as fakeUser } from '@/apis/mock';
 import { dealy } from '@/lib/utils';
 import useUserStore from '@/stores/user';
 import Detail from './Detail';
+import Header from './Header';
 
 export default function Home() {
     const { setHistory } = useHistoryStore();
@@ -26,10 +27,7 @@ export default function Home() {
 
     return (
         <>
-            <header className="flex justify-between">
-                <div>HEADER</div>
-                <div>공지</div>
-            </header>
+            <Header />
             <main>
                 <Summary />
                 <Detail />

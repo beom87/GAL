@@ -108,15 +108,13 @@ export default function Summary() {
                                         onClick={() => onCardClick(history.name)}
                                     >
                                         <div className="px-3 py-1 text-right text-3xl font-semibold">{index + 1}</div>
-                                        <div className="text-center font-semibold text-white">
-                                            <div>{history.name}</div>
-                                            <div className="flex flex-wrap justify-end gap-2 p-2">
-                                                {[...new Array(Math.floor(history.cost / 100000))].map((_) => (
-                                                    <img key={_} src={startSrc} width={20}></img>
+                                        <div className="text-center font-semibold text-white">{history.name}</div>
+                                        <div>
+                                            <div className="flex flex-wrap justify-end gap-y-1 p-2">
+                                                {[...new Array(Math.floor(history.cost / 100000))].map((_, i) => (
+                                                    <img key={i} src={startSrc} width={24}></img>
                                                 ))}
                                             </div>
-                                        </div>
-                                        <div>
                                             <div className="px-2 text-white">
                                                 <div className="flex items-center justify-between gap-x-2">
                                                     <div className="flex flex-1 gap-x-1">

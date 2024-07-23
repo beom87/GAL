@@ -1,15 +1,29 @@
 import Icon from '@/components/ui/icons';
 import { Tooltip } from '@/components/ui/tooltip';
 import { TooltipContent, TooltipTrigger } from '@radix-ui/react-tooltip';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 export default function Header() {
     const [openTrigger, setOpenTrigger] = useState(false);
 
+    useEffect(() => {
+        const blur = () => setOpenTrigger(false);
+        document.addEventListener('click', blur);
+        return () => {
+            document.removeEventListener('click', blur);
+        };
+    }, []);
+
     return (
         <header className="mb-2 border-b py-4 text-center text-lg font-bold">
             <h1>HEADER</h1>
-            <div className="absolute right-3 top-5 z-10 text-sm font-normal" onPointerDown={() => setOpenTrigger((prev) => !prev)}>
+            <div
+                className="absolute right-3 top-5 z-10 text-sm font-normal"
+                onClick={(e) => {
+                    e.stopPropagation();
+                    setOpenTrigger((prev) => !prev);
+                }}
+            >
                 <Tooltip open={openTrigger}>
                     <TooltipTrigger>
                         <Icon name="Info"></Icon>

@@ -1,7 +1,7 @@
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from '@/components/ui/chart';
 import useHistoryStore from '@/stores/history';
 import useHomeStore from '@/stores/home';
-import { BarChart, Bar, CartesianGrid, Rectangle, XAxis } from 'recharts';
+import { BarChart, Bar, CartesianGrid, Rectangle } from 'recharts';
 
 const CustomBar = (props: any) => {
     const color = props.focus === props.winner ? '#d12026' : '#3b5998';
@@ -19,7 +19,6 @@ export default function Recent() {
             <ChartContainer className="m-auto max-w-2xl px-4" config={{ price: { label: 'price' } }}>
                 <BarChart data={data}>
                     <CartesianGrid vertical={false} />
-                    {/* <XAxis dataKey="date" /> */}
                     <ChartTooltip
                         cursor={{ fill: 'lightgrey' }}
                         content={<ChartTooltipContent />}

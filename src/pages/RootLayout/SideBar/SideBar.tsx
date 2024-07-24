@@ -1,7 +1,7 @@
 import Icon from '@/components/ui/icons';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 import { cn } from '@/lib/utils';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 type NaviList = 'home' | 'history';
@@ -14,8 +14,11 @@ export default function SideBar() {
 
     const onNaviClick = (type: NaviList) => {
         setFocus(type);
-        navaite(url[type]);
     };
+
+    useEffect(() => {
+        navaite(url[focus]);
+    }, [focus]);
 
     return (
         <nav className="sticky top-0 flex h-screen flex-col justify-between border-r p-3">

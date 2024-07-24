@@ -3,10 +3,10 @@ import Summary from './Summary';
 import useHistoryStore from '@/stores/history';
 
 import { history as fakeHistory, user as fakeUser } from '@/apis/mock';
-import { dealy } from '@/lib/utils';
 import useUserStore from '@/stores/user';
 import Detail from './Detail';
 import Header from './Header';
+import Recent from './Recent';
 // import spreadsheets from '@/spreadsheets';
 
 export default function Home() {
@@ -29,16 +29,15 @@ export default function Home() {
         //     });
         // });
 
-        dealy().then(() => {
-            setUser(fakeUser);
-            setHistory(fakeHistory);
-        });
+        setUser(fakeUser);
+        setHistory(fakeHistory);
     }, []);
 
     return (
         <>
             <Header />
             <main>
+                <Recent />
                 <Summary />
                 <Detail />
             </main>

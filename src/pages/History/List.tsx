@@ -1,24 +1,37 @@
-import Icon from '@/components/ui/icons';
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 import useHistoryStore from '@/stores/history';
-import useHomeStore from '@/stores/home';
-import useUserStore from '@/stores/user';
 import { useEffect, useMemo, useRef, useState } from 'react';
+import { DateRange } from 'react-day-picker';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import useUserStore from '@/stores/user';
+import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
+import Icon from '@/components/ui/icons';
 
-export default function WinHistoryTable() {
+export default function List({ filter }: { filter: DateRange & { type: 'single' | 'range' } & { filter: string } }) {
+
+    console.log(filter)
     const { user } = useUserStore();
     const { history } = useHistoryStore();
-    const { focus } = useHomeStore();
     const [slice, setSlice] = useState(30);
-    const filteredHistory = useMemo(
-        () =>
-            history
-                ?.slice()
-                .reverse()
-                .filter((h) => h[focus] === 'TRUE' && h.winner === focus) || [],
-        [history, focus]
-    );
+    const filteredHistory = useMemo(() => {
+        if (!history) return [];
+        const dateFilter = history
+            .slice()
+            .reverse()
+            .filter((h) => {
+                const date = new Date(h.date);
+                if (!!filter.from && !!filter.to) return date >= filter.from && date <= filter.to;
+                if (!!filter.from && !filter.to) return date.toDateString() === filter.from.toDateString();
+                if (!filter.from && !filter.to) return true;
+
+                return false;
+            });
+        const userFilter = dateFilter.filter((u) => {
+            if (filter.filter === 'all') return true;
+            return u[filter.filter] === 'TRUE';
+        });
+
+        return userFilter;
+    }, [filter]);
     const sliceList = useMemo(() => filteredHistory.slice(0, slice), [filteredHistory, slice]);
     const ref = useRef<HTMLTableRowElement>(null);
     const [openTootip, setOpenTooltip] = useState(-1);
@@ -44,15 +57,25 @@ export default function WinHistoryTable() {
         };
     }, [focus, slice, filteredHistory]);
 
+    useEffect(() => {
+        const blur = () => {
+            setOpenTooltip(-1);
+        };
+        document.addEventListener('click', blur);
+        return () => {
+            document.removeEventListener('click', blur);
+        };
+    }, []);
+
     return (
-        <div className="mx-2 mt-8 rounded border-2 py-2 shadow">
-            <h1 className="py-4 text-center font-extrabold md:text-2xl">당첨 내역</h1>
-            <Table className="m-auto max-w-[300px] overflow-hidden sm:max-w-[1800px]">
+        <div className="px-4 py-2">
+            <Table className="m-auto max-w-[300px] overflow-auto sm:max-w-none">
                 <TableHeader className="sticky top-0">
                     <TableRow className="border-t">
-                        <TableHead className="border-r px-2 text-center">DATE</TableHead>
-                        <TableHead className="pointer-events-none border-r px-2 text-center">PRICE</TableHead>
-                        <TableHead className="px-2 text-center">PARTICIPANTS</TableHead>
+                        <TableHead className="border-r text-center">날짜</TableHead>
+                        <TableHead className="pointer-events-none border-r text-center">비용</TableHead>
+                        <TableHead className="pointer-events-none border-r text-center">승자</TableHead>
+                        <TableHead className="text-center">참여수</TableHead>
                         {user?.map((u) => (
                             <TableHead className="hidden border-l text-center xl:table-cell" key={u.name}>
                                 {u.name}
@@ -62,16 +85,20 @@ export default function WinHistoryTable() {
                 </TableHeader>
                 <TableBody>
                     {sliceList.map((h, i) => (
-                        <TableRow className="font-medium" key={h.date + i}>
-                            <TableCell className="border-r px-1 text-center">{h.date}</TableCell>
-                            <TableCell className="border-r px-1 text-center">{h.price}</TableCell>
-                            <TableCell className="px-1 text-center">
+                        <TableRow className="font-medium" key={h.date + i + h.price + h.participants}>
+                            <TableCell className="border-r text-center">{h.date}</TableCell>
+                            <TableCell className="border-r text-center">{h.price}</TableCell>
+                            <TableCell className="border-r text-center">{h.winner}</TableCell>
+                            <TableCell className="text-center">
                                 <div className="relative flex items-center justify-center">
                                     <span>{h.participants}</span>
                                     <Tooltip open={i === openTootip}>
                                         <TooltipTrigger
                                             className="absolute right-0 mt-1 rounded-full border p-2 xl:hidden"
-                                            onClick={() => onDetailParticipantsClick(i)}
+                                            onClick={(e) => {
+                                                e.stopPropagation();
+                                                onDetailParticipantsClick(i);
+                                            }}
                                         >
                                             <Icon name="UserSearch" size={16} />
                                         </TooltipTrigger>

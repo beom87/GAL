@@ -97,13 +97,13 @@ export default function Summary() {
                     <CarouselContent className="-ml-2">
                         {data?.map((history, index) => (
                             <CarouselItem key={index} className="pl-2 lg:basis-1/3 2xl:basis-1/5">
-                                <div className="p-1">
+                                <div className="relative overflow-hidden rounded-xl p-2">
                                     <Card
                                         className={cn('flex h-96 flex-col justify-between overflow-auto bg-main text-gray-900', {
                                             'bg-[#f5c040] text-[#654321]': index === 0,
                                             'bg-[#c0c0c0] text-[#00008b]': index === 1,
                                             'bg-[#cd7f32] text-white': index === 2,
-                                            'animate-bounce-2 shadow-md shadow-neutral-900': focus === history.name
+                                            'shadow-md shadow-neutral-900': focus === history.name
                                         })}
                                         onClick={() => onCardClick(history.name)}
                                     >
@@ -149,6 +149,7 @@ export default function Summary() {
                                             </div>
                                         </div>
                                     </Card>
+                                    {focus === history.name && <div className="absolute -inset-1/2 -z-10 animate-spin bg-gradient-to-r from-indigo-500"></div>}
                                 </div>
                             </CarouselItem>
                         ))}

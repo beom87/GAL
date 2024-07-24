@@ -12,7 +12,7 @@ export class SpreadSheet extends EventEmitter<EventName> {
 
     // Authorization scopes required by the API; multiple scopes can be
     // included, separated by spaces.
-    protected SCOPES = 'https://www.googleapis.com/auth/spreadsheets';
+    protected SCOPES = 'https://www.googleapis.com/auth/spreadsheets.readonly';
 
     protected SPREADSHEET_ID = '13-EZjNw_yC_zA0SPhhlRu4K02Bl_pVwow1pEfB-LUV4';
 
@@ -87,7 +87,7 @@ export class SpreadSheet extends EventEmitter<EventName> {
         if (!window.gapi.client) return;
         const response = await window.gapi.client.sheets.spreadsheets.values.get({
             spreadsheetId: this.SPREADSHEET_ID,
-            range: 'HISTORY!A:Z'
+            range: 'HISTORY!A:AD'
         });
 
         return this.sheetParser(response.result.values);
@@ -102,6 +102,7 @@ export class SpreadSheet extends EventEmitter<EventName> {
 
         return values.reduce((p: any[], c: string) => {
             const d = fileds.reduce((p1: any, c1: any, i: number) => {
+                if (!c1) return p1;
                 p1[c1] = c[i];
                 return p1;
             }, {});

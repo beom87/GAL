@@ -17,7 +17,17 @@ export declare global {
         google: {
             accounts: {
                 oauth2: {
-                    initTokenClient({ client_id, scope, callback }: { client_id: string; scope: string; callback?: ((response) => void) | string }): any;
+                    initTokenClient({
+                        client_id,
+                        scope,
+                        callback,
+                        error_callback
+                    }: {
+                        client_id: string;
+                        scope: string;
+                        callback?: ((response) => void) | string;
+                        error_callback?: (response) => void;
+                    }): any;
                 };
             };
         };

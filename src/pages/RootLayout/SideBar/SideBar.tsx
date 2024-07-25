@@ -4,9 +4,9 @@ import { cn } from '@/lib/utils';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-type NaviList = 'home' | 'history';
+type NaviList = 'home' | 'history' | 'game' | 'order';
 
-const url = { home: '/', history: 'history' };
+const url = { home: '/', history: 'history', game: 'game', order: 'order' };
 
 export default function SideBar() {
     const [focus, setFocus] = useState<NaviList>('home');
@@ -14,6 +14,7 @@ export default function SideBar() {
 
     const onNaviClick = (type: NaviList) => {
         setFocus(type);
+        navaite(url[focus]);
     };
 
     useEffect(() => {
@@ -31,6 +32,12 @@ export default function SideBar() {
                     onClick={() => onNaviClick('history')}
                 >
                     <Icon name="ReceiptText"></Icon>
+                </button>
+                <button className={cn('rounded border p-2 pt-2.5', focus === 'order' && 'border-main bg-main text-white')} onClick={() => onNaviClick('order')}>
+                    <Icon name="ListOrdered"></Icon>
+                </button>
+                <button className={cn('rounded border p-2 pt-2.5', focus === 'game' && 'border-main bg-main text-white')} onClick={() => onNaviClick('game')}>
+                    <Icon name="Joystick"></Icon>
                 </button>
             </div>
             <div className="text-center">

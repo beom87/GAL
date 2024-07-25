@@ -14,7 +14,7 @@ export default function Recent() {
     const { history } = useHistoryStore();
     const [day, setDay] = useState(10);
 
-    const data = history?.slice(-day).map((r) => ({ ...r, price: parseInt(r.price.replace(/₩|,/g, '')) }));
+    const data = history?.slice(-day).map((r) => ({ ...r, price: parseInt(r.price.replace(/₩|,/g, '')) || 0 }));
 
     useEffect(() => {
         const resize = () => {

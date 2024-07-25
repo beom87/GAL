@@ -66,10 +66,10 @@ export default function History() {
                             {!loginState ? <Icon name="LockKeyhole" /> : <Icon name="RefreshCw" />}
                         </button>
                     </header>
-                    <div className="mx-11">
+                    <div className="mx-4 sm:mx-11">
                         <div className="rounded-lg bg-white p-3 text-gray-500">
                             <div>
-                                <Tabs defaultValue="single" className="w-[400px]" onValueChange={onTypeChange}>
+                                <Tabs defaultValue="single" onValueChange={onTypeChange}>
                                     <TabsList>
                                         <TabsTrigger value="single">단일</TabsTrigger>
                                         <TabsTrigger value="range">범위</TabsTrigger>
@@ -77,14 +77,14 @@ export default function History() {
                                 </Tabs>
                             </div>
                             <div className="flex flex-wrap gap-x-10 gap-y-4 pb-3 pt-4">
-                                <div>
+                                <div className="w-full sm:w-60">
                                     <span className="text-sm font-semibold">날짜</span>
                                     <div className="mt-2">
                                         <Popover>
                                             <PopoverTrigger asChild>
                                                 <button
                                                     className={cn(
-                                                        'flex h-10 w-60 items-center gap-x-1 rounded border p-2',
+                                                        'flex h-10 w-full items-center gap-x-1 rounded border p-2 text-xs sm:text-base',
                                                         filter.type === 'single' && 'justify-center'
                                                     )}
                                                 >
@@ -119,11 +119,11 @@ export default function History() {
                                         </Popover>
                                     </div>
                                 </div>
-                                <div>
+                                <div className="w-full sm:w-[180px]">
                                     <span className="text-sm font-semibold">사람</span>
                                     <div className="mt-2">
                                         <Select onValueChange={onFilterChange}>
-                                            <SelectTrigger className="w-[180px]">
+                                            <SelectTrigger>
                                                 <SelectValue placeholder="모두" />
                                             </SelectTrigger>
                                             <SelectContent>
@@ -137,14 +137,14 @@ export default function History() {
                                         </Select>
                                     </div>
                                 </div>
-                                <div className="flex h-[72px] items-end">
-                                    <button className="h-10 w-20 rounded border" onClick={onSearchClick}>
+                                <div className="flex w-full items-end sm:h-[72px] sm:w-20">
+                                    <button className="h-9 w-full rounded border sm:h-10" onClick={onSearchClick}>
                                         검색
                                     </button>
                                 </div>
                             </div>
                         </div>
-                        <div className="flex h-20 pb-1 pt-2">
+                        <div className="invisible h-20 pb-1 pt-2 sm:flex">
                             {mark.map((_, i) => (
                                 <button key={i} className={cn('px-4', i !== 3 && 'border-r-2 border-r-white')} onClick={() => onMarkClick(i)}>
                                     {_?.from ? (

@@ -82,7 +82,7 @@ export default function WinHistoryTable() {
                                     <span>{h.participants}</span>
                                     <Tooltip open={i === openTootip}>
                                         <TooltipTrigger
-                                            className="absolute right-0 mt-1 rounded-full border p-2 xl:hidden"
+                                            className="absolute right-0 mt-1 rounded-full border p-2 opacity-0 sm:opacity-100 xl:hidden"
                                             onClick={(e) => {
                                                 e.stopPropagation();
                                                 onDetailParticipantsClick(i);

@@ -7,8 +7,6 @@ import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip
 import Icon from '@/components/ui/icons';
 
 export default function List({ filter }: { filter: DateRange & { type: 'single' | 'range' } & { filter: string } }) {
-
-    console.log(filter)
     const { user } = useUserStore();
     const { history } = useHistoryStore();
     const [slice, setSlice] = useState(30);
@@ -69,7 +67,7 @@ export default function List({ filter }: { filter: DateRange & { type: 'single' 
 
     return (
         <div className="px-4 py-2">
-            <Table className="m-auto max-w-[300px] overflow-auto sm:max-w-none">
+            <Table className="m-auto overflow-auto sm:max-w-none">
                 <TableHeader className="sticky top-0">
                     <TableRow className="border-t">
                         <TableHead className="border-r text-center">날짜</TableHead>
@@ -94,7 +92,7 @@ export default function List({ filter }: { filter: DateRange & { type: 'single' 
                                     <span>{h.participants}</span>
                                     <Tooltip open={i === openTootip}>
                                         <TooltipTrigger
-                                            className="absolute right-0 mt-1 rounded-full border p-2 xl:hidden"
+                                            className="absolute right-0 mt-1 rounded-full border p-2 xl:hidden opacity-0 sm:opacity-100"
                                             onClick={(e) => {
                                                 e.stopPropagation();
                                                 onDetailParticipantsClick(i);

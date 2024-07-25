@@ -24,7 +24,7 @@ export default function Summary() {
                 (p, c) => {
                     if (c[name] !== 'TRUE') return p;
                     const participants = parseInt(c.participants) || 1;
-                    const cost = parseInt(c.price.replace(/₩|,/g, ''));
+                    const cost = parseInt(c.price.replace(/₩|,/g, '')) || 0;
 
                     p.total += 1;
 

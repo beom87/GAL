@@ -10,8 +10,8 @@ import Recent from './Recent';
 // import spreadsheets from '@/spreadsheets';
 
 export default function Home() {
-    const { setHistory } = useHistoryStore();
-    const { setUser } = useUserStore();
+    const { history, setHistory } = useHistoryStore();
+    const { user, setUser } = useUserStore();
 
     useEffect(() => {
         // spreadsheets.refresh();
@@ -32,6 +32,8 @@ export default function Home() {
         setUser(fakeUser);
         setHistory(fakeHistory);
     }, []);
+
+    if (!history || !user) return null;
 
     return (
         <>
